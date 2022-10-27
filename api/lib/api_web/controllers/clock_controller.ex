@@ -11,18 +11,15 @@ defmodule APIWeb.ClockController do
     render(conn, "index.json", clocks: clocks)
   end
 
-  def create(conn, %{"clock" => clock_params}) do
-    with {:ok, %Clock{} = clock} <- Schema.create_clock(clock_params) do
-      conn
-      |> put_status(:created)
-      |> put_resp_header("location", Routes.clock_path(conn, :show, clock))
-      |> render("show.json", clock: clock)
-    end
+  def createOneClock(conn, %{"userid" => userid, "clock" => clock_params}) do
+    {status, clock} = Schema.create_OneClock(userid, clock_params)
+    IO.inspect(clock)
+    json(conn, clock)
   end
 
   def show(conn, %{"id" => id}) do
-    clock = Schema.get_clock!(id)
-    render(conn, "show.json", clock: clock)
+    clock = Schema.get_clock_by_userid(id)
+    json(conn, clock)
   end
 
   def update(conn, %{"id" => id, "clock" => clock_params}) do

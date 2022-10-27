@@ -37,6 +37,10 @@ defmodule API.Schema do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
+  def getUserByEmailAndUsername(username, email) do
+    Repo.get_by!(User, username: username, email: email)
+  end
+
   @doc """
   Creates a user.
 
@@ -133,6 +137,10 @@ defmodule API.Schema do
   """
   def get_clock!(id), do: Repo.get!(Clock, id)
 
+  def get_clock_by_userid(userid) do
+    Repo.get_by!(Clock, user: userid)
+  end
+
   @doc """
   Creates a clock.
 
@@ -145,9 +153,14 @@ defmodule API.Schema do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_clock(attrs \\ %{}) do
+  def create_OneClock(userid, %{"status" => status, "time" => time}) do
+    tmp = %{
+      status: status,
+      time: time,
+      user: userid
+    }
     %Clock{}
-    |> Clock.changeset(attrs)
+    |> Clock.changeset(tmp)
     |> Repo.insert()
   end
 
@@ -209,9 +222,11 @@ defmodule API.Schema do
       [%Workingtime{}, ...]
 
   """
+
   def list_workingtimes do
     Repo.all(Workingtime)
   end
+
 
   @doc """
   Gets a single workingtime.
@@ -241,9 +256,14 @@ defmodule API.Schema do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_workingtime(attrs \\ %{}) do
+  def create_workingtime(userid, %{"start" => start, "end" => endDate}) do
+    tmp = %{
+      start: start,
+      end: endDate,
+      user: userid
+    }
     %Workingtime{}
-    |> Workingtime.changeset(attrs)
+    |> Workingtime.changeset(tmp)
     |> Repo.insert()
   end
 
@@ -292,5 +312,17 @@ defmodule API.Schema do
   """
   def change_workingtime(%Workingtime{} = workingtime, attrs \\ %{}) do
     Workingtime.changeset(workingtime, attrs)
+  end
+
+  def getUser(userid, id) do
+    Repo.get_by!(Workingtime, user: userid, id: id)
+  end
+
+  def getUserByAllParams(userid, start, endDate) do
+    Workingtime
+    |> where(user: ^userid)
+    |> where([p], p.start < ^start)
+    |> where([p], p.end < ^endDate)
+    |> Repo.all()
   end
 end

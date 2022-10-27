@@ -11,25 +11,32 @@ defmodule APIWeb.WorkingtimeController do
     render(conn, "index.json", workingtimes: workingtimes)
   end
 
-  def create(conn, %{"workingtime" => workingtime_params}) do
-    with {:ok, %Workingtime{} = workingtime} <- Schema.create_workingtime(workingtime_params) do
-      conn
-      |> put_status(:created)
-      |> put_resp_header("location", Routes.workingtime_path(conn, :show, workingtime))
-      |> render("show.json", workingtime: workingtime)
-    end
+  def createOne(conn, %{"userid" => userid, "workingtime" => workingtime_params}) do
+    {status, workingtime} = Schema.create_workingtime(userid, workingtime_params)
+    IO.inspect(workingtime)
+    json(conn, workingtime)
   end
 
-  def show(conn, %{"id" => id}) do
-    workingtime = Schema.get_workingtime!(id)
-    render(conn, "show.json", workingtime: workingtime)
+  def getByParams(conn, %{"userid" => userid, "id" => id}) do
+    workingtime = Schema.getUser(userid, id)
+    json(conn, workingtime)
+  end
+
+  def getItemByAllParams(conn, %{"userid" => userid, "start" => start, "end" => endDate}) do
+    workingtime = Schema.getUserByAllParams(userid, start, endDate)
+    json(conn, workingtime)
+  end
+
+  def show(conn, %{"id" => id, "start" => start, "end" => endDate}) do
+    workingtime = Schema.getUserByAllParams(id, start, endDate)
+    json(conn, workingtime)
   end
 
   def update(conn, %{"id" => id, "workingtime" => workingtime_params}) do
     workingtime = Schema.get_workingtime!(id)
 
     with {:ok, %Workingtime{} = workingtime} <- Schema.update_workingtime(workingtime, workingtime_params) do
-      render(conn, "show.json", workingtime: workingtime)
+      json(conn, workingtime)
     end
   end
 

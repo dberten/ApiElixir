@@ -9,7 +9,10 @@ defmodule APIWeb.Router do
     pipe_through :api
     resources "/users", UserController, except: [:new, :edit]
     resources "/clocks", ClockController, except: [:new, :edit]
+    post "/clocks/:userid", ClockController, :createOneClock
     resources "/workingtimes", WorkingtimeController, except: [:new, :edit]
+    post "/workingtimes/:userid", WorkingtimeController, :createOne
+    get "/workingtimes/:userid/:id", WorkingtimeController, :getByParams
   end
 
   # Enables LiveDashboard only for development

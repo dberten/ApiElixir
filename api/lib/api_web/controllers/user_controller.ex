@@ -6,9 +6,9 @@ defmodule APIWeb.UserController do
 
   action_fallback APIWeb.FallbackController
 
-  def index(conn, _params) do
-    users = Schema.list_users()
-    render(conn, "index.json", users: users)
+  def index(conn, %{"username" => username, "email" => email}) do
+    user = Schema.getUserByEmailAndUsername(username, email)
+    render(conn, "show.json", user: user)
   end
 
   def create(conn, %{"user" => user_params}) do
@@ -40,4 +40,6 @@ defmodule APIWeb.UserController do
       send_resp(conn, :no_content, "")
     end
   end
+
+
 end
