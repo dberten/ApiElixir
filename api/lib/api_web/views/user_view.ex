@@ -6,8 +6,16 @@ defmodule APIWeb.UserView do
     %{data: render_many(users, UserView, "user.json")}
   end
 
+  def rend("success.json", %{message: message}) do
+    %{success: message}
+  end
+
   def render("show.json", %{user: user}) do
     %{data: render_one(user, UserView, "user.json")}
+  end
+
+  def render("error.json", %{message: message}) do
+    %{error: message}
   end
 
   def render("user.json", %{user: user}) do
