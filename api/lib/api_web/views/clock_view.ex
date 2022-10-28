@@ -10,6 +10,14 @@ defmodule APIWeb.ClockView do
     %{data: render_one(clock, ClockView, "clock.json")}
   end
 
+  def rend("success.json", %{message: message}) do
+    %{success: message}
+  end
+
+  def render("error.json", %{message: message}) do
+    %{error: message}
+  end
+
   def render("clock.json", %{clock: clock}) do
     %{id: clock.id,
       time: clock.time,

@@ -12,14 +12,22 @@ defmodule APIWeb.ClockController do
   end
 
   def createOneClock(conn, %{"userid" => userid, "clock" => clock_params}) do
-    {status, clock} = Schema.create_OneClock(userid, clock_params)
-    IO.inspect(clock)
-    json(conn, clock)
+    try do
+      {status, clock} = Schema.create_OneClock(userid, clock_params)
+      IO.inspect(clock)
+      json(conn, clock)
+    rescue
+      e in Ecto.ConstraintError -> render(conn, "error.json", message: "User #{userid} doesn't exists")
+    end
   end
 
   def show(conn, %{"id" => id}) do
-    clock = Schema.get_clock_by_userid(id)
-    json(conn, clock)
+    try do
+      clock = Schema.get_clock_by_userid(id)
+      json(conn, clock)
+    rescue
+      e in Ecto.NoResultsError -> render(conn, "error.json", message: "User #{id} doesn't exists")
+    end
   end
 
   def update(conn, %{"id" => id, "clock" => clock_params}) do

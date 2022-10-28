@@ -12,14 +12,22 @@ defmodule APIWeb.WorkingtimeController do
   end
 
   def createOne(conn, %{"userid" => userid, "workingtime" => workingtime_params}) do
-    {status, workingtime} = Schema.create_workingtime(userid, workingtime_params)
-    IO.inspect(workingtime)
-    json(conn, workingtime)
+    try do
+      {status, workingtime} = Schema.create_workingtime(userid, workingtime_params)
+      IO.inspect(workingtime)
+      json(conn, workingtime)
+    rescue
+      e in Ecto.ConstraintError -> render(conn, "error.json", message: "User #{userid} doesn't exists")
+    end
   end
 
   def getByParams(conn, %{"userid" => userid, "id" => id}) do
-    workingtime = Schema.getUser(userid, id)
-    json(conn, workingtime)
+    try do
+      workingtime = Schema.getUser(userid, id)
+      json(conn, workingtime)
+    rescue
+      e in Ecto.NoResultsError -> render(conn, "error.json", message: "Workingtime doesn't exists")
+    end
   end
 
   def getItemByAllParams(conn, %{"userid" => userid, "start" => start, "end" => endDate}) do
@@ -33,18 +41,24 @@ defmodule APIWeb.WorkingtimeController do
   end
 
   def update(conn, %{"id" => id, "workingtime" => workingtime_params}) do
-    workingtime = Schema.get_workingtime!(id)
-
-    with {:ok, %Workingtime{} = workingtime} <- Schema.update_workingtime(workingtime, workingtime_params) do
-      json(conn, workingtime)
+    try do
+      workingtime = Schema.get_workingtime!(id)
+      with {:ok, %Workingtime{} = workingtime} <- Schema.update_workingtime(workingtime, workingtime_params) do
+        json(conn, workingtime)
+      end
+    rescue
+      e in Ecto.NoResultsError -> render(conn, "error.json", message: "Workingtime doesn't exists")
     end
   end
 
   def delete(conn, %{"id" => id}) do
-    workingtime = Schema.get_workingtime!(id)
-
-    with {:ok, %Workingtime{}} <- Schema.delete_workingtime(workingtime) do
-      send_resp(conn, :no_content, "")
+    try do
+      workingtime = Schema.get_workingtime!(id)
+      with {:ok, %Workingtime{}} <- Schema.delete_workingtime(workingtime) do
+        send_resp(conn, :no_content, "")
+      end
+    rescue
+      e in Ecto.NoResultsError -> render(conn, "error.json", message: "Workingtime doesn't exists")
     end
   end
 end

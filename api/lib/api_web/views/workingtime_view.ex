@@ -10,6 +10,14 @@ defmodule APIWeb.WorkingtimeView do
     %{data: render_one(workingtime, WorkingtimeView, "workingtime.json")}
   end
 
+  def render("error.json", %{message: message}) do
+    %{error: message}
+  end
+
+  def rend("success.json", %{message: message}) do
+    %{success: message}
+  end
+
   def render("workingtime.json", %{workingtime: workingtime}) do
     %{id: workingtime.id,
       start: workingtime.start,
