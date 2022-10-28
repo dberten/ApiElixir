@@ -40,7 +40,6 @@ defmodule APIWeb.ClockController do
 
   def delete(conn, %{"id" => id}) do
     clock = Schema.get_clock!(id)
-
     with {:ok, %Clock{}} <- Schema.delete_clock(clock) do
       send_resp(conn, :no_content, "")
     end
