@@ -24,7 +24,10 @@ defmodule APIWeb.Endpoint do
     at: "/",
     from: :api,
     gzip: false,
-    only: ~w(css fonts images js favicon.ico robots.txt)
+    only: ~w(css fonts images js favicon.ico robots.txt),
+    header: %{
+      "Access-Control-Allow-Origin" => "*"
+    }
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
@@ -45,8 +48,16 @@ defmodule APIWeb.Endpoint do
     pass: ["*/*"],
     json_decoder: Phoenix.json_library()
 
+  plug Corsica,
+    origins: "http://localhost:5173",
+    log: [rejected: :error, invalid: :warn, accepted: :debug],
+    allow_headers: :all,
+    allow_credentials: true
+
+
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
   plug APIWeb.Router
+  plug CORSPlug
 end
