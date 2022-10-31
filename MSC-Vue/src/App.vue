@@ -1,12 +1,20 @@
 <script>
   import CurrentWeather from './components/CurrentWeather.vue';
-  import BootstrapVue from "bootstrap-vue"
 
-  import "bootstrap/dist/css/bootstrap.min.css"
-  import "bootstrap-vue/dist/bootstrap-vue.css"
+  import "bootstrap/dist/css/bootstrap.css"
+  import "bootstrap/dist/js/bootstrap.bundle.js"
+  
 
   export default {
     // components: {CurrentWeather}
+    data() {
+		return {
+			userId: null,
+		}
+    },
+    created() {
+      	this.userId = localStorage.getItem('userId')
+    },
   }
   
 </script>
@@ -17,6 +25,9 @@
 
           <div id="nav">
             <router-link to="/user">user</router-link> |
+    <div v-if="userId">
+            <router-link :to="{ name: 'Mes Heures', params: { userId: this.userId }}">Mes Heures</router-link> |
+    </div>
             <router-link to="/currentWeather/Lyon" v-bind:to="selected">Current Weather</router-link>
           </div>
           <router-view/>

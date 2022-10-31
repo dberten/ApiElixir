@@ -9,6 +9,24 @@ export default createRouter({
             component: () => import('../components/CurrentWeather.vue')
         },
         {
+            path: '/workingTimes/:userId',
+            name: 'Mes Heures',
+            
+            component: () => import('../components/WorkingTimes.vue')
+        },
+        {
+            path: '/workingTime/:userId',
+            name: 'Créer',
+            
+            component: () => import('../components/WorkingTime.vue')
+        },
+        {
+            path: '/workingTime/:userId/:workingtimeId',
+            name: 'Modifier',
+            
+            component: () => import('../components/WorkingTime.vue')
+        },
+        {
             path: '/user',
             name: 'User',
             component: () => import('../components/User.vue')
