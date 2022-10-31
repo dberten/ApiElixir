@@ -17,8 +17,12 @@ defmodule APIWeb.UserController do
 
   def create(conn, %{"user" => user_params}) do
     try do
-      {status, user} = Schema.create_user(user_params)
-      json(conn, user)
+      with {:ok, %User{} = user} <- Schema.create_user(user_params) do
+        conn
+        |> put_status(:created)
+        |> put_resp_header("location", Routes.user_path(conn, :show, user))
+        |> render("show.json", user: user)
+      end
     rescue
       e in Ecto.ConstraintError -> render(conn, "error.json", message: "User already exists")
     end
