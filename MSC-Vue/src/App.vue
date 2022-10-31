@@ -25,7 +25,7 @@
 
           <div id="nav">
             <router-link to="/user">user</router-link> |
-    <div v-if="userId">
+    <div v-if="this.userId">
             <router-link :to="{ name: 'Mes Heures', params: { userId: this.userId }}">Mes Heures</router-link> |
     </div>
             <router-link to="/currentWeather/Lyon" v-bind:to="selected">Current Weather</router-link>

@@ -4,9 +4,6 @@ import axios from 'axios'
 import { useRoute } from 'vue-router';
 
 export default {
-    props: {
-        wtId: null
-    },
     data() {
         return {
             wTimes: [],
