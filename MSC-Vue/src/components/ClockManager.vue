@@ -85,7 +85,7 @@ export default {
             <h2>Début : {{startDateTime}}</h2>
             <h2>Fin : {{endDateTime}}</h2>
             <!-- soustraction du temps final par le temps initial-->
-            <h2>Durée du travail : {{drtn}} heures</h2>
+            <h2>Durée du travail : {{date1.diff(date2, 'hours')}} heures</h2>
         </div>
     </div>
 </template>
