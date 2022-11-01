@@ -1,58 +1,91 @@
 <script>
 
-import axios from 'axios'
+import moment from 'moment/min/moment-with-locales'
+moment.locale('fr')
 
 export default {
-    data() {
-        return {
-            wTimes: []
+    data(){
+        /* regarder moment js pour la date*/
+        return{
+            cmId:null,
+            user: [],
+            state:false, // etat de la clock vrai-> en fonctionnement
+            startDateTime:null, //debut du temps de travail (String)
+            endDateTime:null,
+            date1 : moment(''), //debut du temps de travail (Object)
+            date2 : moment(''),
+            drtn : ''
         }
     },
-    methods : {
+    methods: {
+        clockIn(){
+            /* boolean : true -> work in progress */
+            if(this.state){
+                this.state = false
+            }
+            else this.state = true
 
-        async createWorkingTime(idW, start, end) {
-            const baseURI = 'http://localhost:4000/api/workingtimes/'+idW
-            await axios.post(baseURI,
-            {
-                "user": {
-                    "start": start, 
-                    "end": end
-                }
-            })
         },
-        async updateWorkingTime(idW, start, end) {
-            const baseURI = 'http://localhost:4000/api/workingtimes/'+idW
-            await axios.put(baseURI,
-            {
-                "user": {
-                    "start": start, 
-                    "end": end
-                }
-            })
+        refresh(){
+            /* refresh = mise a 0 */
+            this.state = false,
+            this.startDateTime = null,
+            this.endDateTime = null,
+            this.date1 = moment(''),
+            this.date2 = moment('')            
         },
-        async deleteWorkingTime(idW) {
-            const baseURI = 'http://localhost:4000/api/workingtimes/'+idW
-            await axios.delete(baseURI)
+        clock(){
+            /* pass to active to inactive */
+            if(!this.state){
+                this.startDateTime= moment().format('YYYY-MM-DD hh:mm:ss') // methode retourne un string
+                this.date1=moment(this.startDateTime) // methode retourne objet
+                this.endDateTime = null
+                this.date2 = moment('')
+            }
+            else {
+                this.endDateTime = moment().format('YYYY-MM-DD hh:mm:ss')
+                this.date2 = moment(this.endDateTime)
+                this.drtn = moment.duration(this.startDateTime, 'milliseconds')
+
+                /* Faire le post vers l'api ici */
+            }
+
+        },
+        mounted(){
+            /* utilisation de la route*/
+            wtId = useRoute().params.userId
+            console.log(moment.format('YYYY-MM-DD hh:mm:ss'))
+            console.log(startDateTime)
         }
+
     }
 }
-
 </script>
 
 <template>
-    <div class="container text-color-Wsoft">
-        <div class="black-soft rounded w-100 p-5 text-center">
-            <h1>Où?</h1>
-            <button @click="createUser('Test2', 't2est@gmail.com')" >Click me!</button>
+    <div>
+        <!-- click sur Start demarre la clock-->
+        <button @click="clock(), clockIn()">Start</button>
+        <br>
+        <!-- refresh reset toutes les données actuelles-->
+        <button @click="refresh()">Refresh</button>
+        <div v-if="startDateTime==null && endDateTime == null">
+            <!--si aucune clock en route la page est vide-->
+            <h2></h2>
+            <h2></h2>
         </div>
-    </div>
-    <div class="container text-color-Wsoft mt-5">
-        <div class="black-soft rounded w-100 p-5 text-center">
-            <h1>Météo actuelle à </h1>
-            <div v-for="aWtime in wTimes" :key="aWtime.id">
-                    <h1> {{ aWtime.start }}</h1>
-                    <p> {{ aWtime.end }}</p>
-                </div>
+        <div v-else-if="endDateTime == null">
+            <!-- au premier click de bouton la date de debut est enregistrée-->
+            <h2>Début : {{startDateTime}}</h2>
+            <h2></h2>
+            <h2>Work in progress...</h2>
+        </div>
+        <div v-else>
+            <!--au dernier click affiche recap final-->
+            <h2>Début : {{startDateTime}}</h2>
+            <h2>Fin : {{endDateTime}}</h2>
+            <!-- soustraction du temps final par le temps initial-->
+            <h2>Durée du travail : {{drtn}} heures</h2>
         </div>
     </div>
 </template>

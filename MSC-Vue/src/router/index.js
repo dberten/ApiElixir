@@ -31,5 +31,11 @@ export default createRouter({
             name: 'User',
             component: () => import('../components/User.vue')
         },
+        {
+            path: '/ClockManager/:userId',
+            name: 'ClockManager',
+            component: () => import('../components/ClockManager.vue')
+
+        }
     ]
 })

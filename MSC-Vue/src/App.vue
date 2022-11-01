@@ -22,15 +22,17 @@
 <template>
     <header class="black">
       <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
           <div id="nav">
             <router-link to="/user">user</router-link> |
-    <div v-if="this.userId">
-            <router-link :to="{ name: 'Mes Heures', params: { userId: this.userId }}">Mes Heures</router-link> |
-    </div>
+            <div v-if="this.userId">
+              <router-link :to="{ name: 'Mes Heures', params: { userId: this.userId }}">Mes Heures</router-link> |
+            </div>
             <router-link to="/currentWeather/Lyon" v-bind:to="selected">Current Weather</router-link>
-          </div>
-          <router-view/>
+        </div>
+        <div>
+          <router-link to="/ClockManager/1">ClockManager</router-link>
+        </div>
+        <router-view/>
 
       <div class="">
         <!-- <CurrentWeather town="Lyon" temperature="12°C" /> -->
