@@ -75,48 +75,64 @@ export default {
                 //console.log(this.state)
                 this.endDateTime = moment().format('YYYY-MM-DD hh:mm:ss')
                 this.date2 = moment(this.endDateTime)
-                this.duration = this.date1.diff(this.date2, 'hours',)
+                this.duration = this.date1.diff(this.date2, 'hours')
                 //console.log("heures travaillés : " + this.duration)
-
-                /* Faire le post vers l'api ici */
             }
 
         },
-        mounted(){
+    },
+    mounted(){
             /* utilisation de la route*/
             this.wtId = useRoute().params.userId
-            console.log(moment.format('YYYY-MM-DD hh:mm:ss'))
-            console.log(startDateTime)
-        }
+            //console.log(moment().format('YYYY-MM-DD hh:mm:ss'))
+            //console.log(this.startDateTime)
 
-    }
+            const baseURI = 'http://localhost:4000/api/clocks/' + this.wtId
+            //console.log("ça manage")
+            
+            axios.get(baseURI).then((result)=>{
+                if(result.status){
+                    console.log("if axios")
+                    result.date = this.startDateTime
+                    this.date1 = moment(this.startDateTime)
+                }
+            })
+            //console.log("end axios")
+            
+        }
 }
 </script>
 
 <template>
     <div>
-        <!-- click sur Start demarre la clock-->
-        <button @click="clockIn(),clock()">Start</button>
-        <br>
-        <!-- refresh reset toutes les données actuelles-->
-        <button @click="refresh()">Refresh</button>
-        <div v-if="startDateTime==null && endDateTime == null">
-            <!--si aucune clock en route la page est vide-->
-            <h2></h2>
-            <h2></h2>
+        <div class="container text-color-Wsoft black-soft rounded w-100 p-5 text-center">
+            <!-- click sur Start demarre la clock-->
+            <button class="btn btn-primary" @click="clockIn(),clock()">Start</button>
+            <br>
+            <br>
+            <!-- refresh reset toutes les données actuelles-->
+            <button class="btn btn-primary" @click="refresh()">Refresh</button>
         </div>
-        <div v-else-if="endDateTime == null">
-            <!-- au premier click de bouton la date de debut est enregistrée-->
-            <h2>Début : {{startDateTime}}</h2>
-            <h2></h2>
-            <h2>Work in progress...</h2>
+        <div class="fw-bold container text-color-Wsoft black-soft rounded w-100 p-5 text-center">
+            <div v-if="startDateTime==null && endDateTime == null">
+                <!--si aucune clock en route la page est vide-->
+                <h2></h2>
+                <h2></h2>
+            </div>
+            <div v-else-if="endDateTime == null">
+                <!-- au premier click de bouton la date de debut est enregistrée-->
+                <h2>Début : {{startDateTime}}</h2>
+                <h2></h2>
+                <h2>Work in progress...</h2>
+            </div>
+            <div v-else>
+                <!--au dernier click affiche recap final-->
+                <h2>Début : {{startDateTime}}</h2>
+                <h2>Fin : {{endDateTime}}</h2>
+                <!-- soustraction du temps final par le temps initial-->
+                <h2>Durée du travail : {{this.duration}} heures</h2>
+            </div>
         </div>
-        <div v-else>
-            <!--au dernier click affiche recap final-->
-            <h2>Début : {{startDateTime}}</h2>
-            <h2>Fin : {{endDateTime}}</h2>
-            <!-- soustraction du temps final par le temps initial-->
-            <h2>Durée du travail : {{this.duration}} heures</h2>
-        </div>
+
     </div>
 </template>
