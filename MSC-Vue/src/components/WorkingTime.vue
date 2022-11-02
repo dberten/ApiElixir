@@ -20,7 +20,7 @@ export default {
 
         createWorkingTime() {
             
-            const baseURI = 'http://localhost:4000/api/workingtimes/1'
+            const baseURI = 'http://localhost:4000/api/workingtimes/' + useRoute().params.userId 
             axios.post(baseURI,
             {
                 "workingtime": {
