@@ -25,6 +25,7 @@ export default {
 
 		<img alt="Vue logo" class="ps-3" src="./assets/logo.svg" width="50" height="50" />
 		<span class="pe-3 d-flex align-items-end ">
+			
 			<router-link :to="{ name: 'Mes Heures', params: { userId: this.userId } }" class="mx-3 text-color-Wsoft navBox-text">
 				<h5>Mes Heures</h5>
 			</router-link>

@@ -94,12 +94,12 @@ export default {
         }
     },
     mounted() {
-        let storeU = localStorage.getItem('s_userId')
+        /*let storeU = localStorage.getItem('s_userId')
         console.log(storeU)
 
         if (storeU) {
             this.getUser()
-        }
+        }*/
     }
 }
 
