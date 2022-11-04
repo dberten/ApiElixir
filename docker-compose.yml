@@ -1,0 +1,45 @@
+version: "3.3"
+services:
+  db:
+    image: postgres:13
+    restart: always
+    volumes:
+      - data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - PGDATA=/var/lib/postgresql/data/some_name/=value
+    networks:
+      - database
+  back:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - ./api/.env
+    ports:
+      - "4000:4000"
+    depends_on:
+      - db
+    networks:
+      - database
+      - backend
+  front:
+    build:
+      context: ./MSC-Vue
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "5173:5173"
+    networks:
+      - frontend
+      - backend
+volumes:
+  data:
+networks:
+  frontend:
+  database:
+  backend:

@@ -17,7 +17,7 @@ defmodule APIWeb.WorkingtimeController do
       IO.inspect(workingtime)
       json(conn, workingtime)
     rescue
-      e in Ecto.ConstraintError -> render(conn, "error.json", message: "User #{userid} doesn't exists")
+      e in Ecto.ConstraintError -> render(conn, "error.json", message: "WorkingTime with User #{userid} already exists")
     end
   end
 
