@@ -127,16 +127,13 @@ export default {
 </script>
 
 <template>
-    <div>
-        <div class="container text-color-Wsoft black-soft rounded w-100 p-5 text-center">
+    
             <!-- click sur Start demarre la clock-->
             <button class="btn btn-primary" @click="clockIn(), clock(), start()">Start</button>
             <br>
             <br>
             <!-- refresh reset toutes les données actuelles-->
             <button class="btn btn-primary" @click="refresh(), reset()">Refresh</button>
-        </div>
-        <div class="fw-bold container text-color-Wsoft black-soft rounded w-100 p-5 text-center">
             <div v-if="startDateTime == null && endDateTime == null">
                 <!--si aucune clock en route la page est vide-->
                 <h2></h2>
@@ -162,7 +159,4 @@ export default {
                     <p>{{ formattedElapsedTime }}</p>
                 </h2>
             </div>
-        </div>
-
-    </div>
 </template>

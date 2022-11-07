@@ -13,6 +13,7 @@
     "bootstrap-vue": "^2.23.1",
     "moment": "^2.29.4",
     "save": "^2.9.0",
+    "v-calendar": "^3.0.0-alpha.8",
     "vue": "^3.2.41",
     "vue-cli": "^1.2.0",
     "vue-router": "^4.1.6"

@@ -95,7 +95,10 @@ body {
   z-index: -1;
 }
 
-
+.calendar {
+  background-color: #1a1a1a!important;
+  border-color: #48bb78!important;
+}
 @media (max-width: 766px) {
   .wt-dayBox {
     width: 100%;
