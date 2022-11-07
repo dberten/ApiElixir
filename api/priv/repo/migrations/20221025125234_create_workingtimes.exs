@@ -10,6 +10,6 @@ defmodule API.Repo.Migrations.CreateWorkingtimes do
       timestamps()
     end
 
-    create unique_index(:workingtimes, [:user])
+    create index(:workingtimes, [:user])
   end
 end
