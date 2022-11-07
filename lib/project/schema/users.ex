@@ -37,6 +37,7 @@ defmodule Todolist.Schema.Users do
     |> validate_format(:email, ~r/[[:alnum:]]+@[[:alnum:]]+\.[[:alnum:]]/)
     |> unique_constraint(:username)
     |> unique_constraint(:email)
+    |> validate_length(:password, min: 8)
     |> put_pass_hash
   end
 

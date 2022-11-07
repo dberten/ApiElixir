@@ -46,7 +46,8 @@ defmodule Todolist.MixProject do
       {:cors_plug, "~> 3.0"},
       {:plug_cowboy, "~> 2.5"},
       {:comeonin, "~> 5.3"},
-      {:bcrypt_elixir, "~> 3.0"}
+      {:bcrypt_elixir, "~> 3.0"},
+      {:guardian, "~> 1.0"}
     ]
   end
 

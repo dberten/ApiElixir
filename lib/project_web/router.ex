@@ -14,6 +14,10 @@ defmodule TodolistWeb.Router do
     plug CORSPlug
   end
 
+  pipeline :jwt_authenticated do
+    plug Project.Guardian.AuthPipeline
+  end
+
   scope "/api", TodolistWeb do
     pipe_through :api
     resources "/users", UsersController, except: [:new, :edit]
@@ -23,6 +27,19 @@ defmodule TodolistWeb.Router do
     resources "/clock", ClockController, except: [:new, :edit]
     post "/clock/:userid", ClockController, :createOneClock
 
+  end
+
+  scope "/api/v1", TodolistWeb do
+    pipe_through :api
+
+    post "/sign_up", UsersController, :create
+    post "/sign_in", UsersController, :sign_in
+  end
+
+  scope "/api/v1", TodolistWeb do
+    pipe_through [:api, :jwt_authenticated]
+
+    get "/my_user", UsersController, :showGuardian
   end
 
 

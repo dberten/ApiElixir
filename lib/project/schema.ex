@@ -8,6 +8,8 @@ defmodule Todolist.Schema do
 
   alias Todolist.Schema.Users
 
+  alias Project.Guardian
+
   @doc """
   Returns the list of user.
 
@@ -21,18 +23,42 @@ defmodule Todolist.Schema do
     Repo.all(Users)
   end
 
+  defp get_by_email(email) when is_binary(email) do
+    case Repo.get_by(User, email: email) do
+      nil ->
+        Bcrypt.verify_pass()
+        {:error, "Login error."}
+      user ->
+        {:ok, user}
+    end
+  end
+
+  defp verify_password(password, %Users{} = users) when is_binary(password) do
+    if Bcrypt.verify_pass(password, users.password_hash) do
+      {:ok, users}
+    else
+      {:error, :invalid_password}
+    end
+  end
+
+  defp email_password_auth(email, password) when is_binary(email) and is_binary(password) do
+    with {:ok, users} <- get_by_email(email),
+    do: verify_password(password, users)
+  end
+
+  def token_sign_in(email, password) do
+    case email_password_auth(email, password) do
+      {:ok, users} ->
+        Guardian.encode_and_sign(users)
+      _ ->
+        {:error, :unauthorized}
+    end
+  end
+
   @doc """
   Gets a single users.
 
   Raises `Ecto.NoResultsError` if the Users does not exist.
-
-  ## Examples
-
-      iex> get_users!(123)
-      %Users{}
-
-      iex> get_users!(456)
-      ** (Ecto.NoResultsError)
 
   """
   def get_users!(id), do: Repo.get!(Users, id)

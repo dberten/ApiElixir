@@ -18,6 +18,11 @@ config :project, TodolistWeb.Endpoint,
   pubsub_server: Todolist.PubSub,
   live_view: [signing_salt: "P53qMhKL"]
 
+# Guardian config
+config :project, Project.Guardian,
+       issuer: "Project",
+       secret_key: "+jiIukgnnbkhIOsyp8svvxDmJwXfOM1bv7OkAlwhVaWrwdlkI81tiTVCgURctmZq"
+
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails
