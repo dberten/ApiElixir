@@ -37,6 +37,8 @@ defmodule API.MixProject do
       {:ecto_sql, "~> 3.4"},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_live_dashboard, "~> 0.2.0"},
+      {:esbuild, "~> 0.4", runtime: Mix.env() == :dev},
+      {:swoosh, "~> 1.3"},
       {:telemetry_metrics, "~> 0.4"},
       {:telemetry_poller, "~> 0.4"},
       {:gettext, "~> 0.11"},
@@ -44,8 +46,10 @@ defmodule API.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:cors_plug, "~> 3.0"},
       {:corsica, "~> 1.0"},
-      {:plug, "~> 1.0"}
-
+      {:plug, "~> 1.0"},
+      {:comeonin, "~> 5.3"},
+      {:bcrypt_elixir, "~> 3.0"},
+      {:guardian, "~> 1.0"}
     ]
   end
 

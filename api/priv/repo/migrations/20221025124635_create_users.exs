@@ -3,8 +3,10 @@ defmodule API.Repo.Migrations.CreateUsers do
 
   def change do
     create table(:users) do
-      add :username, :string
-      add :email, :string
+      add :username, :string, require: true, null: false
+      add :email, :string, require: true, null: false
+      add :password, :string
+      add :role, {:array, :integer}
 
       timestamps()
     end

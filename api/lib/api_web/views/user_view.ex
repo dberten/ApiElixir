@@ -19,8 +19,16 @@ defmodule APIWeb.UserView do
   end
 
   def render("user.json", %{user: user}) do
-    %{id: user.id,
+    %{
+      id: user.id,
       username: user.username,
-      email: user.email}
+      email: user.email,
+      password: user.password,
+      role: user.role
+    }
+  end
+
+  def render("jwt.json", %{jwt: jwt}) do
+    %{jwt: jwt}
   end
 end

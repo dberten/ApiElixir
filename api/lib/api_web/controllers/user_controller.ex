@@ -3,6 +3,7 @@ defmodule APIWeb.UserController do
 
   alias API.Schema
   alias API.Schema.User
+  alias API.Guardian
 
   action_fallback APIWeb.FallbackController
 
@@ -15,13 +16,25 @@ defmodule APIWeb.UserController do
     end
   end
 
+  def sign_in(conn, %{"email" => email, "password" => password}) do
+    case Accounts.token_sign_in(email, password) do
+      {:ok, token, _claims} ->
+        conn |> render("jwt.json", jwt: token)
+      _ ->
+        {:error, :unauthorized}
+    end
+  end
+
+  def log_out(conn) do
+    Guardian.Plug.sign_out(conn)
+  end
+
   def create(conn, %{"user" => user_params}) do
     try do
-      with {:ok, %User{} = user} <- Schema.create_user(user_params) do
+      with {:ok, %User{} = user} <- Schema.create_user(user_params),
+      {:ok, token, _claims} <- Guardian.encode_and_sign(user)  do
         conn
-        |> put_status(:created)
-        |> put_resp_header("location", Routes.user_path(conn, :show, user))
-        |> render("show.json", user: user)
+        |> render("jwt.json", jwt: token)
       end
     rescue
       e in Ecto.ConstraintError -> render(conn, "error.json", message: "User already exists")
@@ -35,6 +48,11 @@ defmodule APIWeb.UserController do
     rescue
       e in Ecto.NoResultsError -> render(conn, "error.json", message: "User #{id} doesn't exists")
     end
+  end
+
+  def showGuardian(conn, _params) do
+    user = Guardian.Plug.current_resource(conn)
+    conn |> render("user.json", user: user)
   end
 
   def update(conn, %{"id" => id, "user" => user_params}) do

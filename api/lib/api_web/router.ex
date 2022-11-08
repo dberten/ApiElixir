@@ -5,14 +5,21 @@ defmodule APIWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :jwt_authenticated do
+    plug API.Guardian.AuthPipeline
+  end
+
   scope "/api", APIWeb do
-    pipe_through :api
+    pipe_through [:api, :jwt_authenticated]
     resources "/users", UserController, except: [:new, :edit]
     resources "/clocks", ClockController, except: [:new, :edit]
     post "/clocks/:userid", ClockController, :createOneClock
     resources "/workingtimes", WorkingtimeController, except: [:new, :edit]
     post "/workingtimes/:userid", WorkingtimeController, :createOne
     get "/workingtimes/:userid/:id", WorkingtimeController, :getByParams
+    post "/sign_up", UserController, :create
+    post "/sign_in", UserController, :sign_in
+    get "/user", UserController, :showGuardian
   end
 
   # Enables LiveDashboard only for development
