@@ -31,12 +31,42 @@ export default {
             },
             {
                 q:'Comment gerez vous les heures supplementaires ?',
-                a:'Le service ne dispose actuellement pas ',
+                a:'Le service ne dispose actuellement pas d\'outils gerant les heures supplémentaires',
                 open: false
             },
             {
                 q:'Quel but à l\'application ',
-                a:'',
+                a:'Le but est d\'avoir un chronometre fidèle au temps de travail effectué',
+                open: false
+            },
+            {
+                q:'je dois quitter le travail durant une petite periode comment mettre sur pause ?',
+                a:'Vous pouvez appuyer sur le bouton stop et reprendre via le bouton start',
+                open: false
+            },
+            {
+                q:'Puis-je voir les heures travaillés de mes collegues ?',
+                a:'Non les heures travaillées sont privée au niveau logiciel, libre a vous de les partager a l\'oral',
+                open: false
+            },
+            {
+                q:'Si j\'oublie d\'éteindre mon chrono, puis-je le modifier ?',
+                a:'Il est actuellement pas possible de le modifier... En revanche nous travaillons sur cette fonctionnalitée et devrais être disponible sous peu',
+                open: false
+            },
+            {
+                q:'Je ne travaille pas sur oridinateur comment gerer mes heures ?',
+                a:'L\'application est disponible en version web mobile, la version application arrivera sous peu',
+                open: false
+            },
+            {
+                q:'L\'aplication est-elle disponible pour les personnes mal-voyante ?',
+                a:'Nous travaillons actuellement a la rendre accesssible au plus grand monde',
+                open: false
+            },
+            {
+                q:'Comment sont payés les heures supplmentaires ?',
+                a:'Votre organisme déduira en fonction de l\'heure de début et de fin le nombre d\'heures supplémentaires effectuées et vous paiera en consequence ',
                 open: false
             },
         ])
