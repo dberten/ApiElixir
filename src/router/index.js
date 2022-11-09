@@ -24,7 +24,7 @@ import Home from '../components/WorkingTimes.vue'
             }
         },
         {
-            path: '/',
+            path: '/Home',
             name: 'Home',
             component: Home,
             meta:{

@@ -116,8 +116,6 @@ export default {
 	<div class="container borderModal-linear p-0 py-5 my-5" id="owBorder-linear">
 		<div class="d-sm-flex justify-content-between align-items-center">
 			<DatePicker class="calendar" :value="null" color="green" is-dark is-range v-model="calTimes" @click="calendarRefreshData()"/>
-
-			<div class="">.col-md-4</div>
 		</div>
 	</div>
 

@@ -7,7 +7,7 @@ export default {
 	// components: {CurrentWeather}
 	data() {
 		return {
-			userId: null,
+			navbar: false,
 		}
 	},
 	created() {
@@ -22,7 +22,7 @@ export default {
 	},
 	mounted() {
 		const sessionObject = JSON.parse(sessionStorage.getItem('sessionObject'));
-		this.squalala = sessionObject.SessionData.squalala;
+		this.navbar = sessionObject.SessionData.navbar;
 	}
 }
 
@@ -30,7 +30,7 @@ export default {
 
 <template>
 
-	<div class="d-flex mb-5 navBox flex-row justify-content-between">
+	<div class="d-flex mb-5 navBox flex-row justify-content-between" v-if="this.navbar == true">
 
 		<img alt="Vue logo" class="ps-3" src="./assets/logo.svg" width="50" height="50" />
 		<span class="pe-3 d-flex align-items-end ">

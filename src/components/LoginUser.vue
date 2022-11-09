@@ -40,7 +40,7 @@ methods: {
             expiresAt: expires,
             SessionData: {
                 token: token,
-                squalala: true
+                navbar: true
             }
         }
         sessionStorage.setItem('sessionObject', JSON.stringify(sessionObject));
