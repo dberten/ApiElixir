@@ -17,7 +17,7 @@ defmodule APIWeb.UserController do
   end
 
   def sign_in(conn, %{"email" => email, "password" => password}) do
-    case Accounts.token_sign_in(email, password) do
+    case Schema.token_sign_in(email, password) do
       {:ok, token, _claims} ->
         conn |> render("jwt.json", jwt: token)
       _ ->
@@ -33,6 +33,7 @@ defmodule APIWeb.UserController do
     try do
       with {:ok, %User{} = user} <- Schema.create_user(user_params),
       {:ok, token, _claims} <- Guardian.encode_and_sign(user)  do
+        IO.inspect([user])
         conn
         |> render("jwt.json", jwt: token)
       end

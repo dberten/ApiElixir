@@ -17,16 +17,30 @@ defmodule APIWeb.WorkingtimeController do
       IO.inspect(workingtime)
       json(conn, workingtime)
     rescue
-      e in Ecto.ConstraintError -> render(conn, "error.json", message: "WorkingTime with User #{userid} already exists")
+      e in Ecto.ConstraintError -> render(conn, "error.json", message: "WorkingTime with User #{userid} already exist")
     end
   end
 
   def getByParams(conn, %{"userid" => userid, "id" => id}) do
     try do
-      workingtime = Schema.getUser(userid, id)
+      if id == nil do
+        workingtime = Schema.getByUserid(userid)
+        json(conn, workingtime)
+      else
+        workingtime = Schema.getUser(userid, id)
+        json(conn, workingtime)
+      end
+    rescue
+      e in Ecto.NoResultsError -> render(conn, "error.json", message: "Workingtime doesn't exist")
+    end
+  end
+
+  def getWorkingtimeByUserid(conn, %{"userid" => userid}) do
+    try do
+      workingtime = Schema.getByUserid(userid)
       json(conn, workingtime)
     rescue
-      e in Ecto.NoResultsError -> render(conn, "error.json", message: "Workingtime doesn't exists")
+      e in Ecto.NoResultsError -> render(conn, "error.json", message: "User doesn't exist")
     end
   end
 

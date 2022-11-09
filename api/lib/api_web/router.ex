@@ -17,11 +17,24 @@ defmodule APIWeb.Router do
     resources "/workingtimes", WorkingtimeController, except: [:new, :edit]
     post "/workingtimes/:userid", WorkingtimeController, :createOne
     get "/workingtimes/:userid/:id", WorkingtimeController, :getByParams
-    post "/sign_up", UserController, :create
-    post "/sign_in", UserController, :sign_in
-    get "/user", UserController, :showGuardian
+    get "/workingtimes/:userid", WorkingtimeController, :getWorkingtimeByUserid
+    # post "/sign_up", UserController, :create
+    # post "/sign_in", UserController, :sign_in
+    # get "/user", UserController, :showGuardian
   end
 
+  scope "/api", APIWeb do
+    pipe_through :api
+
+    post "/sign_up", UserController, :create
+    post "/sign_in", UserController, :sign_in
+  end
+
+  scope "/api", APIWeb do
+    pipe_through [:api, :jwt_authenticated]
+
+    get "/my_user", UserController, :showGuardian
+  end
   # Enables LiveDashboard only for development
   #
   # If you want to use the LiveDashboard in production, you should put

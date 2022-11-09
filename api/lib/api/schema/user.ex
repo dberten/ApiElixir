@@ -2,7 +2,7 @@ defmodule API.Schema.User do
   use Ecto.Schema
   import Ecto.Changeset
 
-  @derive {Jason.Encoder, only: [:email, :username, :id]}
+  @derive {Jason.Encoder, only: [:email, :username, :id, :password, :role]}
   schema "users" do
     field :email, :string
     field :username, :string

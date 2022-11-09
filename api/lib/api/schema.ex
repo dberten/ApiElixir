@@ -24,7 +24,6 @@ defmodule API.Schema do
   defp get_by_email(email) when is_binary(email) do
     case Repo.get_by(User, email: email) do
       nil ->
-        Bcrypt.verify_pass()
         {:error, "Login error."}
       user ->
         {:ok, user}
@@ -32,7 +31,7 @@ defmodule API.Schema do
   end
 
   defp verify_password(password, %User{} = user) when is_binary(password) do
-    if Bcrypt.verify_pass(password, user.password_hash) do
+    if Bcrypt.verify_pass(password, user.password) do
       {:ok, user}
     else
       {:error, :invalid_password}
@@ -348,6 +347,10 @@ defmodule API.Schema do
 
   def getUser(userid, id) do
     Repo.get_by!(Workingtime, user: userid, id: id)
+  end
+
+  def getByUserid(userid) do
+    Repo.get_by!(Workingtime, user: userid)
   end
 
   def getUserByAllParams(userid, start, endDate) do
