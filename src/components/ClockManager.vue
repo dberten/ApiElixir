@@ -118,7 +118,12 @@ export default {
 <template>
     
             <!-- click sur Start demarre la clock-->
-            <button class="btn btn-primary" @click="clockIn(), clock(), start()">Start</button>
+            <div v-if ="state">
+                <button class="btn btn-primary" @click="clockIn(),clock(),start()" style="background-color:red">Clock Out</button>
+            </div>
+            <div v-else>
+                <button class="btn btn-primary" @click="clockIn(),clock(),start()" style="background-color:green">Clock In</button>
+            </div>
             <br>
             <br>
             <!-- refresh reset toutes les données actuelles-->
