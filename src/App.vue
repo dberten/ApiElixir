@@ -1,6 +1,4 @@
 <script>
-import CurrentWeather from './components/CurrentWeather.vue';
-
 import "bootstrap/dist/css/bootstrap.css"
 import "bootstrap/dist/js/bootstrap.bundle.js"
 
@@ -15,6 +13,17 @@ export default {
 	created() {
 		this.userId = localStorage.getItem('s_userId')
 	},
+	methods: {
+        Deconnexion() {
+            sessionStorage.removeItem('sessionObject')
+			console.log(sessionStorage)
+			document.location.reload();
+        }
+	},
+	mounted() {
+		const sessionObject = JSON.parse(sessionStorage.getItem('sessionObject'));
+		this.squalala = sessionObject.SessionData.squalala;
+	}
 }
 
 </script>
@@ -26,18 +35,15 @@ export default {
 		<img alt="Vue logo" class="ps-3" src="./assets/logo.svg" width="50" height="50" />
 		<span class="pe-3 d-flex align-items-end ">
 			
-			<router-link :to="{ name: 'Mes Heures', params: { userId: this.userId } }" class="mx-3 text-color-Wsoft navBox-text">
+			<router-link to="/Home" class="mx-3 text-color-Wsoft navBox-text">
 				<h5>Mes Heures</h5>
 			</router-link>
 			<!-- <router-link to="/currentWeather/Lyon" v-bind:to="selected"><h5>Current Weather</h5></router-link> -->
 
-			<router-link to="/ClockManager/1" class="mx-3 text-color-Wsoft navBox-text">
+			<router-link to="/ClockManager" class="mx-3 text-color-Wsoft navBox-text">
 				<h5>Clock Manager</h5>
 			</router-link>
-			<router-link to="/user" class="mx-3 text-color-Wsoft navBox-text">
-				<h5>user</h5>
-			</router-link>
-
+			<input type="submit" class="mx-3 text-color-Wsoft navBox-text" name="submit" id="Deco" value="Deconnexion" v-on:click="Deconnexion">
 		</span>
 	</div>
 	<router-view />
