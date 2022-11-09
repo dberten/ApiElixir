@@ -7,8 +7,8 @@ import { useRoute } from 'vue-router'
 
 export default {
     props: {
-		wtId: null
-	},
+        wtId: null
+    },
     data() {
         /* regarder moment js pour la date*/
         return {
@@ -84,13 +84,13 @@ export default {
         //METHODES CLOCK
         start() {
             //Si vrai -> pressé 1x -> debut (start)
-            if(this.state){
+            if (this.state) {
                 this.elapsedTime = 0;
                 this.timer = setInterval(() => {
-                this.elapsedTime += 1000;
-            }, 1000);
-            //Si faux -> pressé 2x -> fin (stop)
-            }else{
+                    this.elapsedTime += 1000;
+                }, 1000);
+                //Si faux -> pressé 2x -> fin (stop)
+            } else {
                 clearInterval(this.timer)
             }
         },
@@ -109,48 +109,50 @@ export default {
     },
     mounted() {
         this.wtId = useRoute().params.userId
-       
+
         this.date1 = moment(this.startDateTime)
     }
 }
 </script>
 
 <template>
-    
-            <!-- click sur Start demarre la clock-->
-            <div v-if ="state">
-                <button class="btn btn-primary" @click="clockIn(),clock(),start()" style="background-color:red">Clock Out</button>
-            </div>
-            <div v-else>
-                <button class="btn btn-primary" @click="clockIn(),clock(),start()" style="background-color:green">Clock In</button>
-            </div>
-            <br>
-            <br>
-            <!-- refresh reset toutes les données actuelles-->
-            <button class="btn btn-primary" @click="refresh(), reset()">Refresh</button>
-            <div v-if="startDateTime == null && endDateTime == null">
-                <!--si aucune clock en route la page est vide-->
-                <h2></h2>
-                <h2></h2>
-            </div>
-            <div v-else-if="endDateTime == null">
-                <!-- au premier click de bouton la date de debut est enregistrée-->
-                <h2>Début : {{ startDateTime }}</h2>
-                <h2></h2>
-                <h2>Work in progress...</h2>
-            </div>
-            <div v-else>
-                <!--au dernier click affiche recap final-->
-                <h2>Début : {{ startDateTime }}</h2>
-                <h2>Fin : {{ endDateTime }}</h2>
-                <!-- soustraction du temps final par le temps initial-->
-                <!--
+
+    <!-- click sur Start demarre la clock-->
+    <div v-if="state">
+        <button class="btn btn-primary" @click="clockIn(), clock(), start()" style="background-color:red">Clock
+            Out</button>
+    </div>
+    <div v-else>
+        <button class="btn btn-primary" @click="clockIn(), clock(), start()" style="background-color:green">Clock
+            In</button>
+    </div>
+    <br>
+    <br>
+    <!-- refresh reset toutes les données actuelles-->
+    <button class="btn btn-primary" @click="refresh(), reset()">Refresh</button>
+    <div v-if="startDateTime == null && endDateTime == null">
+        <!--si aucune clock en route la page est vide-->
+        <h2></h2>
+        <h2></h2>
+    </div>
+    <div v-else-if="endDateTime == null">
+        <!-- au premier click de bouton la date de debut est enregistrée-->
+        <h2>Début : {{ startDateTime }}</h2>
+        <h2></h2>
+        <h2>Work in progress...</h2>
+    </div>
+    <div v-else>
+        <!--au dernier click affiche recap final-->
+        <h2>Début : {{ startDateTime }}</h2>
+        <h2>Fin : {{ endDateTime }}</h2>
+        <!-- soustraction du temps final par le temps initial-->
+        <!--
                 <h2>Durée du travail : {{this.duration}} heures</h2>
                 -->
-            </div>
-            <div class="clock">
-                <h2>
-                    <p>{{ formattedElapsedTime }}</p>
-                </h2>
-            </div>
+    </div>
+    <div class="clock">
+        <h2>
+            <p>{{ formattedElapsedTime }}</p>
+        </h2>
+    </div>
 </template>
