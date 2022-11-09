@@ -46,7 +46,7 @@ export default {
             }
             catch (err) {
                 if (err.response) {
-                    this.errorMsg = err.response.data.errors.email[0];
+                    this.errorMsg = err.response.data.error;
                 }
             }
         },

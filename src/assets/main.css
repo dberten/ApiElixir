@@ -10,6 +10,35 @@ body {
   background-color: #1a1a1a;
 }
 
+.borderModal-linear{
+  position: relative;
+}
+.borderModal-linear::before {
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  top: 62px;
+  content: "";
+  border-width: 2px;
+  background: linear-gradient(50deg, rgba(66, 211, 146, 1),rgba(91, 148, 227, 1));
+}
+
+.borderModal-linear::after {
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  bottom: 70px;
+  content: "";
+  border-width: 2px;
+  background: linear-gradient(50deg, rgba(66, 211, 146, 1),rgba(91, 148, 227, 1));
+}
+
+#owBorder-linear::before {
+  top: 0px;
+}
+#owBorder-linear::after {
+  bottom: 0px;
+}
 .black-soft {
   background-color: #242424;
 }
@@ -22,7 +51,7 @@ body {
   position: absolute;
   width: 100%;
   height: 1px;
-  top: 80px;
+  top: 60px;
   content: "";
   border-width: 2px;
   background: linear-gradient(28deg, rgba(66, 211, 146, 1),rgba(91, 148, 227, 0.4414));
