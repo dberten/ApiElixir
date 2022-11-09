@@ -6,10 +6,13 @@ import axios from 'axios'
 import { useRoute } from 'vue-router'
 
 export default {
+    props: {
+		wtId: null
+	},
     data() {
         /* regarder moment js pour la date*/
         return {
-            wtId: useRoute().params.userId,
+            wtId: null,
             user: [],
             state: false, // etat de la clock vrai-> en fonctionnement
             startDateTime: null, //debut du temps de travail (String)
@@ -105,23 +108,9 @@ export default {
         }
     },
     mounted() {
-        /* utilisation de la route*/
         this.wtId = useRoute().params.userId
-        //console.log(moment().format('YYYY-MM-DD hh:mm:ss'))
-        //console.log(this.startDateTime)
-
-        const baseURI = 'http://localhost:4000/api/clocks/' + this.wtId
-        //console.log("ça manage")
-
-        axios.get(baseURI).then((result) => {
-            if (result.status) {
-                console.log("if axios")
-                result.date = this.startDateTime
-                this.date1 = moment(this.startDateTime)
-            }
-        })
-        //console.log("end axios")
-
+       
+        this.date1 = moment(this.startDateTime)
     }
 }
 </script>

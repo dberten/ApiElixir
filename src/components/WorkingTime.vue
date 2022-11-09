@@ -81,7 +81,7 @@ export default {
         <button class="btn btn-success" @click="newForm">Add Another</button>
     </div>
 
-    <div v-if="this.wtId"> {{ this.wtId }}</div>
+    <!-- <div v-if="this.wtId"> {{ this.wtId }}</div> -->
 
 
 </template>
