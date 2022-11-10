@@ -4,12 +4,6 @@ import axios from 'axios'
 import { useRoute } from 'vue-router';
 
 export default {
-    props: {
-        userId: {
-            type: Int8Array,
-            required: true
-        },
-    },
     data() {
         return {
             wTimes: [],
@@ -18,8 +12,7 @@ export default {
                 start: "2022-10-23 02:09:05",
                 end: "2022-10-23 02:09:05"
             },
-            submitted: false,
-            wtId: null
+            submitted: false
         }
     },
     methods: {
@@ -56,8 +49,7 @@ export default {
         }
     },
     mounted() {
-        this.wtId = localStorage.getItem('s_userId')
-        console.log(this.userId)
+
     }
 }
 
@@ -80,8 +72,4 @@ export default {
         <h4>You submitted successfully!</h4>
         <button class="btn btn-success" @click="newForm">Add Another</button>
     </div>
-
-    <!-- <div v-if="this.wtId"> {{ this.wtId }}</div> -->
-
-
 </template>

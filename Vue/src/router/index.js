@@ -39,14 +39,7 @@ import Home from '../components/WorkingTimes.vue'
                 requiresAuth:true
             }
         },
-        {
-            path: '/workingTime/:userId/:workingtimeId',
-            name: 'Modifier',
-            component: () => import('../components/WorkingTime.vue'),
-            meta:{
-                requiresAuth:true
-            }
-        },
+        
         {
             path: '/Clock',
             name: 'Clock',

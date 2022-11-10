@@ -6,9 +6,6 @@ import axios from 'axios'
 import { useRoute } from 'vue-router'
 
 export default {
-    props: {
-        wtId: null
-    },
     data() {
         /* regarder moment js pour la date*/
         return {
@@ -29,29 +26,29 @@ export default {
             /* boolean : true -> work in progress */
             if (this.state) {
                 this.state = false
-                const baseURI = 'http://localhost:4000/api/clocks/' + this.wtId
-                //post date de debut
-                await axios.post(baseURI,
-                    {
-                        "clock": {
-                            "status": true,
-                            "time": this.startDateTime,
-                            "user": this.wtId
-                        }
-                    }).then(
-                        console.log("date 1 submitted")
-                    )
-                //post date de fin
-                await axios.post(baseURI,
-                    {
-                        "clock": {
-                            "status": false,
-                            "time": this.endDateTime,
-                            "user": this.wtId
-                        }
-                    }).then(
-                        console.log("date 2 submited")
-                    )
+                // const baseURI = 'http://localhost:4000/api/clocks/' + this.wtId
+                // //post date de debut
+                // await axios.post(baseURI,
+                //     {
+                //         "clock": {
+                //             "status": true,
+                //             "time": this.startDateTime,
+                //             "user": this.wtId
+                //         }
+                //     }).then(
+                //         console.log("date 1 submitted")
+                //     )
+                // //post date de fin
+                // await axios.post(baseURI,
+                //     {
+                //         "clock": {
+                //             "status": false,
+                //             "time": this.endDateTime,
+                //             "user": this.wtId
+                //         }
+                //     }).then(
+                //         console.log("date 2 submited")
+                //     )
             }
             else this.state = true
         },

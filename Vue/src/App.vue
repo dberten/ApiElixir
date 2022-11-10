@@ -13,11 +13,10 @@ export default {
 		this.userId = localStorage.getItem('s_userId')
 	},
 	methods: {
-		Deconnexion() {
-			sessionStorage.removeItem('sessionObject')
-			console.log(sessionStorage)
+        Deconnexion() {
+            sessionStorage.removeItem('sessionObject')
 			document.location.reload();
-		}
+        }
 	},
 	mounted() {
 		const sessionObject = JSON.parse(sessionStorage.getItem('sessionObject'));
@@ -42,8 +41,7 @@ export default {
 			<router-link to="/Clock" class="mx-3 text-color-Wsoft navBox-text">
 				<h5>Clock Manager</h5>
 			</router-link>
-			<input type="submit" class="mx-3 text-color-Wsoft navBox-text" name="submit" id="Deco" value="Deconnexion"
-				v-on:click="Deconnexion">
+			<a class="mx-3 text-color-Wsoft navBox-text" @click="Deconnexion" href="#"> <h5>Deconnexion</h5> </a>
 		</span>
 	</div>
 	<router-view />

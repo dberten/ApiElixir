@@ -32,8 +32,7 @@ export default {
                     "email": this.user.email,
                     "password": this.user.password
                 };
-                axios
-                    .post(login_url, login)
+                axios.post(login_url, login)
                     .then(response => (
                         this.setStorages(response.data.jwt),
                         document.location.reload()
@@ -66,7 +65,6 @@ export default {
 </script>
 
 <template>
-    <div class="container">
         <section class="vh-100 gradient-custom">
             <div class="container py-5 h-100">
                 <div class="row d-flex justify-content-center align-items-center h-100">
@@ -109,5 +107,4 @@ export default {
                 </div>
             </div>
         </section>
-    </div>
 </template>

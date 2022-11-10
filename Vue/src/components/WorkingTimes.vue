@@ -1,6 +1,8 @@
 <script>
 
 import axios from 'axios'
+axios.defaults.headers.common = {'Authorization': `Bearer ${JSON.parse(sessionStorage.getItem("sessionObject")).SessionData.token}`}
+
 import moment from 'moment/min/moment-with-locales'
 
 import WorkingTime from './WorkingTime.vue'
@@ -12,9 +14,6 @@ import { Calendar, DatePicker } from 'v-calendar';
 import "v-calendar/dist/style.css"
 
 export default {
-	props: {
-		wtId: null
-	},
 	data() {
 		return {
 			users: [],
@@ -23,11 +22,24 @@ export default {
 			userIdC: null,
 			modalUpdate: [],
 			timezone: '',
-			isFirstClick: false,
+			isFirstClick: false
 		};
 	},
 	methods: {
+		async getUserId() {
+			const baseURI = 'http://localhost:4000/api/my_user'
+			await axios.get(baseURI).then((result) => {
+					this.userIdC = result.data.id
+					console.log(result.data.id)
+					console.log(this.userIdC)
+
+				});
+
+			this.refreshData();
+			
+		},
 		async getWorkingTimes(start, end) {
+			console.log(this.userIdC)
 			const baseURI = "http://localhost:4000/api/workingtimes/" + this.userIdC + "?start=" + start + "&end=" + end;
 			await axios.get(baseURI)
 				.then((result) => {
@@ -50,6 +62,7 @@ export default {
             const baseURI = 'http://localhost:4000/api/workingtimes/' + this.modalUpdate.id
             await axios.delete(baseURI)
         },
+		
 		moment: function () {
 			return moment();
 		},
@@ -92,13 +105,9 @@ export default {
 			}
 		}
 	},
-	mounted() {
-		this.userIdC = useRoute().params.userId;
+	created() {
+		this.getUserId();
 
-		this.refreshData();
-
-
-		console.log(this.userIdC);
 	},
 
 	components: { WorkingTime, ClockManager, Calendar, DatePicker }
@@ -109,7 +118,7 @@ export default {
 <template>
 
 	<div class="container p-0 mt-5">
-		<ClockManager :userId="this.userIdC" />
+		<ClockManager />
 
 	</div>
 
@@ -145,7 +154,7 @@ export default {
 
 	<div class="container p-0 text-color-Wsoft mb-5">
 		<div class="black-soft rounded w-100 p-5 text-center">
-			<WorkingTime :userId="this.userIdC" />
+			<WorkingTime />
 
 
 			<div class="modal fade" id="ModalModifier" aria-hidden="true" aria-labelledby="ModalModifierLabel"
